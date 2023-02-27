@@ -20,6 +20,10 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        val adapter = Adapter1()
+        binding.asteroidRecycler.adapter = adapter
+//        adapter.data = listOf("1", "2", "3", "4", "5", "6", "7", "8")
+
         setHasOptionsMenu(true)
 
         return binding.root
