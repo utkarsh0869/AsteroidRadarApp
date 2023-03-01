@@ -2,12 +2,16 @@ package com.udacity.asteroidradar.main
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.udacity.asteroidradar.R
+import org.w3c.dom.Text
 
-class Adapter1: RecyclerView.Adapter<TextItemViewHolder>() {
+class Adapter1: RecyclerView.Adapter<Adapter1.ViewHolder>() {
 
     var data = listOf("1", "2", "3", "4", "5", "6", "7", "8")
         set(value) {
@@ -15,16 +19,16 @@ class Adapter1: RecyclerView.Adapter<TextItemViewHolder>() {
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-            .inflate(R.layout.text_item_view, parent, false) as TextView
-        return TextItemViewHolder(view)
+            .inflate(R.layout.preview_asteroid, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.textView.text = item
+//        holder.asteroidId.text =  item
     }
 
     override fun getItemCount(): Int {
@@ -32,6 +36,11 @@ class Adapter1: RecyclerView.Adapter<TextItemViewHolder>() {
         return data.size
     }
 
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val asteroidId: TextView = itemView.findViewById(R.id.asteroidId)
+        val asteroidDetectionDate: TextView = itemView.findViewById(R.id.asteroidDate)
+        val asteroidStatusImage : ImageView = itemView.findViewById(R.id.asteroidStatusImage)
+    }
 
 }
 /**
