@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.main
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,28 +33,29 @@ class MainViewModel : ViewModel() {
 
         val startDate = getNextSevenDaysFormattedDates()[0]
         val endDate = getNextSevenDaysFormattedDates()[6]
-        val apiKey = ""
+        val apiKey = "FfQBqGjq408vfK0LKgFSvDKwiMuaHAHkgQuhTCnT"
 
         NasaAsteroidApi.retrofitService.getAsteroidProperties(startDate, endDate, apiKey)
-            .enqueue(object: Callback<String> {
+            .enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    _response.value = "DONE"
+                    if (response.isSuccessful) {
+                        val jsonObject = JSONObject(response.body())
+
+                        jsonObject.let {
+                            _response.value = "Response Length: ${jsonObject.toString().length}"
+                            Log.d("HERE", jsonObject.toString())
+                            val asd = parseAsteroidsJsonResult(jsonObject)
+                            _response.value = asd[0].id.toString()
+                        }
+                    } else {
+                        _response.value = "Failure: ${response.errorBody()?.string()}"
+                    }
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
-                    _response.value = "NOT DONE"
+                    _response.value = "Failure: ${t.message}"
                 }
             })
-    }
 
-//    private suspend fun getNasaAsteroidProperties() {
-//        val startDate = getNextSevenDaysFormattedDates()[0]
-//        val endDate = getNextSevenDaysFormattedDates()[6]
-//        val apiKey = ""
-//
-//        val resultList = NasaAsteroidApi.retrofitService.getAsteroidProperties(startDate, endDate, apiKey)
-//        val asteroidList = parseAsteroidsJsonResult(JSONObject(resultList))
-//
-//        _response.value = "Set it here"
-//    }
+    }
 }
