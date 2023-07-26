@@ -1,7 +1,8 @@
+package com.udacity.asteroidradar.database
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.udacity.asteroidradar.database.AsteroidEntity
 
 @Dao
 interface AsteroidDao {
