@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView 
 import androidx.recyclerview.widget.RecyclerView
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 
 class Adapter1: RecyclerView.Adapter<Adapter1.ViewHolder>() {
 
-    var data = listOf("1", "2", "3", "4", "5", "6", "7", "8")
-        set(value) {
+    var data = listOf<Asteroid>()
+        set(value)  {
             field = value
             notifyDataSetChanged()
         }
@@ -25,8 +26,14 @@ class Adapter1: RecyclerView.Adapter<Adapter1.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-//        holder.asteroidName.text =  item
+        val asteroid = data[position]
+        holder.asteroidName.text =  asteroid.codename
+        holder.asteroidDetectionDate.text = asteroid.closeApproachDate
+        if(asteroid.isPotentiallyHazardous) {
+            holder.asteroidStatusImage.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        } else {
+            holder.asteroidStatusImage.setImageResource(R.drawable.ic_status_normal)
+        }
     }
 
     override fun getItemCount(): Int {

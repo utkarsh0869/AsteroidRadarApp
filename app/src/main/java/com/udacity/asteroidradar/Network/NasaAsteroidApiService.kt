@@ -32,11 +32,11 @@ private val retrofit = Retrofit.Builder()
 
 interface NasaAsteroidApiService {
     @GET("neo/rest/v1/feed")
-    fun getAsteroidProperties(
+    suspend fun getAsteroidProperties(
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String
-    ): Call<String>
+    ): String
 }
 
 object NasaAsteroidApi {

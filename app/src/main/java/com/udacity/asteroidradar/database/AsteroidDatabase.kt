@@ -8,29 +8,22 @@ import androidx.room.RoomDatabase
 @Database(entities = [AsteroidEntity::class], version = 1, exportSchema = false)
 abstract class AsteroidDatabase : RoomDatabase(){
 
-    abstract fun asteroidDao(): AsteroidDao
+    abstract val asteroidDao: AsteroidDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: AsteroidDatabase? = null
+        private lateinit var INSTANCE: AsteroidDatabase
 
-        fun getInstance(context: Context) : AsteroidDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if(instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
+        fun getDatabase(context: Context): AsteroidDatabase {
+            synchronized(AsteroidDatabase::class.java) {
+                if (!::INSTANCE.isInitialized) {
+                    INSTANCE = Room.databaseBuilder(context.applicationContext,
                         AsteroidDatabase::class.java,
-                        "asteroid_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
+                        "asteroid_table").build()
                 }
-                return instance
             }
+            return INSTANCE
         }
     }
 }
