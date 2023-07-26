@@ -9,11 +9,14 @@ import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.Network.NasaAsteroidApi
 import com.udacity.asteroidradar.Network.NasaAsteroidApiService
+import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.api.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.database.AsteroidDatabase.Companion.getDatabase
 import com.udacity.asteroidradar.database.AsteroidRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,10 +29,16 @@ class MainViewModel(
     private val database = getDatabase(application)
     private val asteroidRepository = AsteroidRepository(database)
 
-    init {
-        refreshDataFromNetwork()
-    }
+    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+    val pictureOfDay: LiveData<PictureOfDay>
+        get() = _pictureOfDay
 
+    init {
+        viewModelScope.launch {
+            asteroidRepository.refreshAsteroids()
+            refreshPictureOfDay()
+        }
+    }
     val asteroids = asteroidRepository.allAsteroids
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
@@ -42,10 +51,17 @@ class MainViewModel(
         }
     }
 
-    private fun refreshDataFromNetwork() {
-        viewModelScope.launch {
-            asteroidRepository.refreshAsteroids()
+    private suspend fun refreshPictureOfDay() {
+        withContext(Dispatchers.IO) {
+            try {
+                val api_key = "FfQBqGjq408vfK0LKgFSvDKwiMuaHAHkgQuhTCnT"
+                _pictureOfDay.postValue(
+                    NasaAsteroidApi.retrofitService.getPictureOfTheDay(api_key)
+                )
+            } catch (err: Exception) {
+                Log.e("refreshPictureOfDay", err.printStackTrace().toString())
+            }
         }
     }
-
 }
+
