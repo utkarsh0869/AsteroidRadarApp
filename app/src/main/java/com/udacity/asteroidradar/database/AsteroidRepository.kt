@@ -39,7 +39,6 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
         }
     }
 
-
     /**
      * a list of asteroids that can be shown on the screen.
      * Load the videos from the offline cache.

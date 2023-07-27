@@ -51,17 +51,37 @@ class MainViewModel(
         }
     }
 
+//    private suspend fun refreshPictureOfDay() {
+//        withContext(Dispatchers.IO) {
+//            try {
+//                val api_key = "FfQBqGjq408vfK0LKgFSvDKwiMuaHAHkgQuhTCnT"
+//                _pictureOfDay.postValue(
+//                    NasaAsteroidApi.retrofitService.getPictureOfTheDay(api_key)
+//                )
+//            } catch (err: Exception) {
+//                Log.e("refreshPictureOfDay", err.printStackTrace().toString())
+//            }
+//        }
+//    }
     private suspend fun refreshPictureOfDay() {
         withContext(Dispatchers.IO) {
             try {
                 val api_key = "FfQBqGjq408vfK0LKgFSvDKwiMuaHAHkgQuhTCnT"
-                _pictureOfDay.postValue(
-                    NasaAsteroidApi.retrofitService.getPictureOfTheDay(api_key)
-                )
+                val pictureOfDay = NasaAsteroidApi.retrofitService.getPictureOfTheDay(api_key)
+
+                // Check the media type of the PictureOfDay
+                if (pictureOfDay.mediaType == "image") {
+                    // Download and use the image
+                    _pictureOfDay.postValue(pictureOfDay)
+                } else {
+                    // Ignore videos (and other media types)
+                }
+
             } catch (err: Exception) {
                 Log.e("refreshPictureOfDay", err.printStackTrace().toString())
             }
         }
     }
+
 }
 
