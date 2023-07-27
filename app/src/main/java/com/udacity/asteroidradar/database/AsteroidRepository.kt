@@ -44,7 +44,7 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
      * Load the videos from the offline cache.
      */
     val allAsteroids: LiveData<List<Asteroid>> =
-        Transformations.map(database.asteroidDao.getAsteroidEntity()) {
+        Transformations.map(database.asteroidDao.getAsteroidsFromTodayOnwards(startDate)) {
             it.asDomainModel()
         }
 }
