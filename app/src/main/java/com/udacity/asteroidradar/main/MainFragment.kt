@@ -54,6 +54,5 @@ class MainFragment : Fragment(), Adapter1.OnItemClickListener {
         val action = MainFragmentDirections.actionShowDetail(asteroid)
         Navigation.findNavController(requireView()).navigate(action)
 
-//        Navigation.findNavController(requireView()).navigate(R.id.action_showDetail)
     }
 }
