@@ -5,21 +5,17 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
-class MainFragment : Fragment() {
-
-//    private val viewModel: MainViewModel by lazy {
-//        ViewModelProvider(this).get(MainViewModel::class.java)
-//    }
+class MainFragment : Fragment(), Adapter1.OnItemClickListener {
 
     private val viewModel: MainViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
         }
-        //The ViewModelProviders (plural) is deprecated.
-        //ViewModelProviders.of(this, DevByteViewModel.Factory(activity.application)).get(DevByteViewModel::class.java)
         ViewModelProvider(this, MainViewModel.Factory(activity.application)).get(MainViewModel::class.java)
 
     }
@@ -31,7 +27,7 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val adapter = Adapter1()
+        val adapter = Adapter1(this)
         binding.asteroidRecycler.adapter = adapter
 
         viewModel.asteroids.observe(viewLifecycleOwner, Observer {
@@ -52,5 +48,12 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return true
+    }
+
+    override fun onItemClick(asteroid: Asteroid) {
+        val action = MainFragmentDirections.actionShowDetail(asteroid)
+        Navigation.findNavController(requireView()).navigate(action)
+
+//        Navigation.findNavController(requireView()).navigate(R.id.action_showDetail)
     }
 }
