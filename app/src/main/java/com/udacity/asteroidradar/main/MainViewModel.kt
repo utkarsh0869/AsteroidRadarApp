@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import com.udacity.asteroidradar.FilterAsteroid
 import com.udacity.asteroidradar.Network.NasaAsteroidApi
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.database.AsteroidDatabase.Companion.getDatabase
@@ -28,7 +29,20 @@ class MainViewModel(
             refreshPictureOfDay()
         }
     }
-    val asteroids = asteroidRepository.allAsteroids
+
+    private var _filterAsteroid = MutableLiveData(FilterAsteroid.ALL)
+
+    val asteroidList = Transformations.switchMap(_filterAsteroid) {
+        when (it!!) {
+            FilterAsteroid.WEEK -> asteroidRepository.weekAsteroids
+            FilterAsteroid.TODAY -> asteroidRepository.todayAsteroids
+            else -> asteroidRepository.allAsteroids
+        }
+    }
+
+    fun onChangeFilter(filter: FilterAsteroid) {
+        _filterAsteroid.postValue(filter)
+    }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

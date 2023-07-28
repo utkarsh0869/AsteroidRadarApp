@@ -32,7 +32,6 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
             withContext(Dispatchers.IO) {
                 database.asteroidDao.insertAll(*result.asDatabaseModel())
             }
-
             Log.d("Refresh Asteroids", "Success")
         } catch (err: Exception) {
             Log.e("Failed: AsteroidRepFile", err.message.toString())
@@ -44,7 +43,22 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
      * Load the videos from the offline cache.
      */
     val allAsteroids: LiveData<List<Asteroid>> =
-        Transformations.map(database.asteroidDao.getAsteroidsFromTodayOnwards(startDate)) {
+        Transformations.map(database.asteroidDao.getAsteroids()) {
+            it.asDomainModel()
+        }
+
+    val todayAsteroids: LiveData<List<Asteroid>> =
+        Transformations.map(database.asteroidDao.getAsteroidsDay(startDate)) {
+            it.asDomainModel()
+        }
+
+    val weekAsteroids: LiveData<List<Asteroid>> =
+        Transformations.map(
+            database.asteroidDao.getAsteroidsDate(
+                startDate,
+                endDate
+            )
+        ) {
             it.asDomainModel()
         }
 }

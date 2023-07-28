@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.FilterAsteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -30,7 +31,7 @@ class MainFragment : Fragment(), Adapter1.OnItemClickListener {
         val adapter = Adapter1(this)
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner, Observer {
+        viewModel.asteroidList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
             }
@@ -47,6 +48,19 @@ class MainFragment : Fragment(), Adapter1.OnItemClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.onChangeFilter(
+            when(item.itemId) {
+                R.id.show_today_menu -> {
+                    FilterAsteroid.TODAY
+                }
+                R.id.show_all_menu -> {
+                    FilterAsteroid.ALL
+                }
+                else -> {
+                    FilterAsteroid.WEEK
+                }
+            }
+        )
         return true
     }
 
