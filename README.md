@@ -3,15 +3,11 @@ Asteroid Radar is an app to view the asteroids detected by NASA that pass near E
 
 # Screenshots
 
-![Screenshot_20230915-101611](https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/2a82f62a-b93e-40b0-b6a9-03219687e98c)
-
-![Screenshot_20230915-101619](https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/7a4f12eb-9a68-412d-b4a8-88c0ac14fd94)
-
-![Screenshot_20230915-101637](https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/1a949ce8-eecf-4899-9d8e-67df925acd41)
-
-![Screenshot_20230915-101641](https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/78d6895b-6a92-4f30-ae20-4514be8217b1)
-
-![Screenshot_20230915-101648](https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/13d8a572-af8d-482e-b326-540c570e12e9)
+<img src="https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/2a82f62a-b93e-40b0-b6a9-03219687e98c" alt="Image 1" width="360">
+<img src="https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/7a4f12eb-9a68-412d-b4a8-88c0ac14fd94" alt="Image 2" width="360">
+<img src="https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/1a949ce8-eecf-4899-9d8e-67df925acd41" alt="Image 3" width="360">
+<img src="https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/78d6895b-6a92-4f30-ae20-4514be8217b1" alt="Image 4" width="360">
+<img src="https://github.com/utkarsh0869/AsteroidRadarApp/assets/44482062/13d8a572-af8d-482e-b326-540c570e12e9" alt="Image 5" width="360">
 
 ### Some of the concepts used in this projects
 
